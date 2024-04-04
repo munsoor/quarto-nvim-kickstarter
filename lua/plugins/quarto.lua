@@ -1,3 +1,5 @@
+vim.g.python3_host_prog = '/opt/homebrew/Caskroom/mambaforge/base/envs/neovim/bin/python'
+
 return {
 
   {
