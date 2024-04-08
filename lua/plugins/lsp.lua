@@ -206,18 +206,25 @@ return {
       --   flags = lsp_flags
       -- }
 
-      -- lspconfig.rust_analyzer.setup{
-      --   on_attach = on_attach,
-      --   capabilities = capabilities,
-      --   settings = {
-      --     ['rust-analyzer'] = {
-      --       diagnostics = {
-      --         enable = false;
-      --       }
-      --     }
-      --   }
-      -- }
+      lspconfig.rust_analyzer.setup {
+        on_attach = on_attach,
+        capabilities = capabilities,
+        cmd = {
+          'rustup',
+          'run',
+          'stable',
+          'rust-analyzer',
+        },
+        settings = {
+          ['rust-analyzer'] = {
+            diagnostics = {
+              enable = false,
+            },
+          },
+        },
+      }
 
+      --
       -- See https://github.com/neovim/neovim/issues/23291
       -- disable lsp watcher.
       -- Too lags on linux for python projects
