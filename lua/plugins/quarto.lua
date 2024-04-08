@@ -2,7 +2,8 @@ vim.g.python3_host_prog = '/opt/homebrew/Caskroom/mambaforge/base/envs/neovim/bi
 
 return {
 
-  { -- requires plugins in treesitter.lua and lsp.lua
+  { -- requires plugins in lua/plugins/treesitter.lua and lua/plugins/lsp.lua
+    -- for complete functionality (language features)
     'quarto-dev/quarto-nvim',
     ft = { 'quarto' },
     dev = false,
@@ -16,30 +17,10 @@ return {
       },
     },
     dependencies = {
-      {
-        -- for language features in code cells
-        -- specifically needs its source added for nvim-cmp in completion.lua
-        'jmbuhr/otter.nvim',
-        dev = false,
-        dependencies = {
-          {
-            'neovim/nvim-lspconfig',
-            'nvim-treesitter/nvim-treesitter',
-            'hrsh7th/nvim-cmp',
-          },
-        },
-        opts = {
-          lsp = {
-            hover = {
-              border = require('misc.style').border,
-            },
-          },
-          buffers = {
-            set_filetype = true,
-          },
-          handle_leading_whitespace = true,
-        },
-      },
+      -- for language features in code cells
+      -- configured in lua/plugins/lsp.lua and
+      -- added as a nvim-cmp source in lua/plugins/completion.lua
+      'jmbuhr/otter.nvim',
     },
   },
 
