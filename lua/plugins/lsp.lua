@@ -239,13 +239,13 @@ return {
           'stable',
           'rust-analyzer',
         },
-        settings = {
-          ['rust-analyzer'] = {
-            diagnostics = {
-              enable = false,
-            },
-          },
-        },
+        -- settings = {
+        --   ['rust-analyzer'] = {
+        --     diagnostics = {
+        --       enable = false,
+        --     },
+        --   },
+        -- },
       }
 
       --

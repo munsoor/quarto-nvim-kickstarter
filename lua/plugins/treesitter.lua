@@ -29,6 +29,7 @@ return {
           'mermaid',
           'norg',
           'typescript',
+          'rust',
         },
         highlight = {
           enable = true,
