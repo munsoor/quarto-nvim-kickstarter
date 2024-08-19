@@ -7,15 +7,16 @@ return {
     'quarto-dev/quarto-nvim',
     ft = { 'quarto' },
     dev = false,
-    opts = {
-      lspFeatures = {
-        languages = { 'r', 'python', 'julia', 'bash', 'lua', 'html', 'dot', 'javascript', 'typescript', 'ojs', 'rust' },
-      },
-      codeRunner = {
-        enabled = true,
-        default_method = 'slime',
-      },
-    },
+    -- opts = {
+    --   lspFeatures = {
+    --     languages = { 'r', 'python', 'julia', 'bash', 'lua', 'html', 'dot', 'javascript', 'typescript', 'ojs', 'rust' },
+    --   },
+    --   codeRunner = {
+    --     enabled = true,
+    --     default_method = 'slime',
+    --   },
+    -- },
+    opts = {},
     dependencies = {
       -- for language features in code cells
       -- configured in lua/plugins/lsp.lua and
@@ -24,9 +25,29 @@ return {
     },
   },
 
+  { -- directly open ipynb files as quarto docuements
+    -- and convert back behind the scenes
+    'GCBallesteros/jupytext.nvim',
+    opts = {
+      custom_language_formatting = {
+        python = {
+          extension = 'qmd',
+          style = 'quarto',
+          force_ft = 'quarto',
+        },
+        r = {
+          extension = 'qmd',
+          style = 'quarto',
+          force_ft = 'quarto',
+        },
+      },
+    },
+  },
+
   { -- send code from python/r/qmd documets to a terminal or REPL
     -- like ipython, R, bash
     'jpalardy/vim-slime',
+    dev = false,
     init = function()
       vim.b['quarto_is_python_chunk'] = false
       Quarto_is_in_python_chunk = function()
@@ -50,15 +71,22 @@ return {
       ]]
 
       vim.g.slime_target = 'neovim'
+      vim.g.slime_no_mappings = true
       vim.g.slime_python_ipython = 1
     end,
     config = function()
+      vim.g.slime_input_pid = false
+      vim.g.slime_suggest_default = true
+      vim.g.slime_menu_config = false
+      vim.g.slime_neovim_ignore_unlisted = true
+
       local function mark_terminal()
-        vim.g.slime_last_channel = vim.b.terminal_job_id
+        local job_id = vim.b.terminal_job_id
+        vim.print('job_id: ' .. job_id)
       end
 
       local function set_terminal()
-        vim.b.slime_config = { jobid = vim.g.slime_last_channel }
+        vim.fn.call('slime#config', {})
       end
       vim.keymap.set('n', '<leader>cm', mark_terminal, { desc = '[m]ark terminal' })
       vim.keymap.set('n', '<leader>cs', set_terminal, { desc = '[s]et terminal' })
@@ -70,6 +98,9 @@ return {
     event = 'BufEnter',
     ft = { 'markdown', 'quarto', 'latex' },
     opts = {
+      default = {
+        dir_path = 'img',
+      },
       filetypes = {
         markdown = {
           url_encode_path = true,

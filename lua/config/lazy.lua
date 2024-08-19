@@ -21,7 +21,10 @@ require('lazy').setup('plugins', {
     path = '~/projects',
     fallback = true,
   },
-  install = {},
+  install = {
+    missing = true,
+    colorscheme = { 'default' },
+  },
   checker = { enabled = false },
   rtp = {
     disabled_plugins = {
@@ -36,8 +39,7 @@ require('lazy').setup('plugins', {
     },
   },
   change_detection = {
-    -- automatically check for config file changes and reload the ui
     enabled = true,
-    notify = false, -- get a notification when changes are found
+    notify = false,
   },
 })

@@ -37,12 +37,20 @@ return {
           end
         end)
       end
+
+      local telescope_config = require 'telescope.config'
+      -- Clone the default Telescope configuration
+      local vimgrep_arguments = { unpack(telescope_config.values.vimgrep_arguments) }
+      -- I don't want to search in the `docs` directory (rendered quarto output).
+      table.insert(vimgrep_arguments, '--glob')
+      table.insert(vimgrep_arguments, '!docs/*')
+
       telescope.setup {
         defaults = {
           buffer_previewer_maker = new_maker,
+          vimgrep_arguments = vimgrep_arguments,
           file_ignore_patterns = {
             'node_modules',
-            '%_files/*.html',
             '%_cache',
             '.git/',
             'site_libs',
@@ -87,10 +95,10 @@ return {
             require('telescope.themes').get_dropdown(),
           },
           fzf = {
-            fuzzy = true, -- false will only do exact matching
+            fuzzy = true,                   -- false will only do exact matching
             override_generic_sorter = true, -- override the generic sorter
-            override_file_sorter = true, -- override the file sorter
-            case_mode = 'smart_case', -- or "ignore_case" or "respect_case"
+            override_file_sorter = true,    -- override the file sorter
+            case_mode = 'smart_case',       -- or "ignore_case" or "respect_case"
           },
         },
       }
@@ -101,11 +109,30 @@ return {
     end,
   },
 
-  -- Highlight todo, notes, etc in comments
-  {
+  { -- Highlight todo, notes, etc in comments
     'folke/todo-comments.nvim',
     dependencies = { 'nvim-lua/plenary.nvim' },
     opts = { signs = false },
+  },
+
+  { -- edit the file system as a buffer
+    'stevearc/oil.nvim',
+    opts = {
+      keymaps = {
+        ['<C-s>'] = false,
+        ['<C-h>'] = false,
+        ['<C-l>'] = false,
+      },
+      view_options = {
+        show_hidden = true,
+      },
+    },
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    keys = {
+      { '-',          ':Oil<cr>', desc = 'oil' },
+      { '<leader>ef', ':Oil<cr>', desc = 'edit [f]iles' },
+    },
+    cmd = 'Oil',
   },
 
   { -- statusline
@@ -163,6 +190,11 @@ return {
     enabled = false,
   },
 
+  {
+    "NStefan002/screenkey.nvim",
+    lazy = false,
+  },
+
   { -- filetree
     'nvim-tree/nvim-tree.lua',
     enabled = true,
@@ -214,12 +246,25 @@ return {
   },
 
   { -- show tree of symbols in the current file
-    'simrat39/symbols-outline.nvim',
-    cmd = 'SymbolsOutline',
+    'hedyhli/outline.nvim',
+    cmd = 'Outline',
     keys = {
-      { '<leader>lo', ':SymbolsOutline<cr>', desc = 'symbols outline' },
+      { '<leader>lo', ':Outline<cr>', desc = 'symbols outline' },
     },
-    opts = {},
+    opts = {
+      providers = {
+        priority = { 'markdown', 'lsp',  'norg' },
+        -- Configuration for each provider (3rd party providers are supported)
+        lsp = {
+          -- Lsp client names to ignore
+          blacklist_clients = {},
+        },
+        markdown = {
+          -- List of supported ft's to use the markdown provider
+          filetypes = { 'markdown', 'quarto' },
+        },
+      },
+    },
   },
 
   { -- or show symbols in the current file as breadcrumbs
@@ -304,26 +349,24 @@ return {
   { -- show images in nvim!
     '3rd/image.nvim',
     enabled = true,
-    dependencies = {
-      {
-        -- needs:
-        -- sudo apt installl luajit
-        -- <https://github.com/vhyrro/luarocks.nvim>
-        'vhyrro/luarocks.nvim',
-        priority = 1001, -- this plugin needs to run before anything else
-        opts = {
-          rocks = { 'magick' },
-        },
-      },
-    },
+    -- fix to commit to keep using the rockspeck for image magick
+    -- TODO: check back on this later
+    commit = 'deb158d',
+    dev = false,
+    ft = { 'markdown', 'quarto', 'vimwiki' },
     config = function()
       -- Requirements
       -- https://github.com/3rd/image.nvim?tab=readme-ov-file#requirements
       -- check for dependencies with `:checkhealth kickstart`
       -- needs:
+      -- sudo apt install imagemagick
       -- sudo apt install libmagickwand-dev
+      -- sudo apt install liblua5.1-0-dev
+      -- sudo apt install lua5.1
+      -- sudo apt installl luajit
 
-      require('image').setup {
+      local image = require 'image'
+      image.setup {
         backend = 'kitty',
         integrations = {
           markdown = {
@@ -332,13 +375,74 @@ return {
             filetypes = { 'markdown', 'vimwiki', 'quarto' },
           },
         },
-        -- auto show/hide images when the editor gains/looses focus
         editor_only_render_when_focused = false,
-        -- toggles images when windows are overlapped
-        window_overlap_clear_enabled = false,
-        -- auto show/hide images in the correct Tmux window (needs visual-activity off)
+        window_overlap_clear_enabled = true,
         tmux_show_only_in_active_window = true,
+        window_overlap_clear_ft_ignore = { 'cmp_menu', 'cmp_docs', 'scrollview', 'scrollview_sign' },
+        max_width = nil,
+        max_height = nil,
+        max_width_window_percentage = nil,
+        max_height_window_percentage = 30,
+        kitty_method = 'normal',
       }
+
+      local function clear_all_images()
+        local bufnr = vim.api.nvim_get_current_buf()
+        local images = image.get_images { buffer = bufnr }
+        for _, img in ipairs(images) do
+          img:clear()
+        end
+      end
+
+      local function get_image_at_cursor(buf)
+        local images = image.get_images { buffer = buf }
+        local row = vim.api.nvim_win_get_cursor(0)[1] - 1
+        for _, img in ipairs(images) do
+          if img.geometry ~= nil and img.geometry.y == row then
+            local og_max_height = img.global_state.options.max_height_window_percentage
+            img.global_state.options.max_height_window_percentage = nil
+            return img, og_max_height
+          end
+        end
+        return nil
+      end
+
+      local create_preview_window = function(img, og_max_height)
+        local buf = vim.api.nvim_create_buf(false, true)
+        local win_width = vim.api.nvim_get_option_value('columns', {})
+        local win_height = vim.api.nvim_get_option_value('lines', {})
+        local win = vim.api.nvim_open_win(buf, true, {
+          relative = 'editor',
+          style = 'minimal',
+          width = win_width,
+          height = win_height,
+          row = 0,
+          col = 0,
+          zindex = 1000,
+        })
+        vim.keymap.set('n', 'q', function()
+          vim.api.nvim_win_close(win, true)
+          img.global_state.options.max_height_window_percentage = og_max_height
+        end, { buffer = buf })
+        return { buf = buf, win = win }
+      end
+
+      local handle_zoom = function(bufnr)
+        local img, og_max_height = get_image_at_cursor(bufnr)
+        if img == nil then
+          return
+        end
+
+        local preview = create_preview_window(img, og_max_height)
+        image.hijack_buffer(img.path, preview.win, preview.buf)
+      end
+
+      vim.keymap.set('n', '<leader>io', function()
+        local bufnr = vim.api.nvim_get_current_buf()
+        handle_zoom(bufnr)
+      end, { buffer = true, desc = 'image [o]pen' })
+
+      vim.keymap.set('n', '<leader>ic', clear_all_images, { desc = 'image [c]lear' })
     end,
   },
 }
