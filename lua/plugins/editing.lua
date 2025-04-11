@@ -30,7 +30,7 @@ return {
     'stevearc/conform.nvim',
     enabled = true,
     keys = {
-      { '<leader>cf', '<cmd>lua require("conform").format()<cr>', desc = "[f]ormat" },
+      { '<leader>cf', '<cmd>lua require("conform").format()<cr>', desc = '[f]ormat' },
     },
     config = function()
       require('conform').setup {
@@ -43,6 +43,10 @@ return {
           lua = { 'mystylua' },
           python = { 'isort', 'black' },
           quarto = { 'injected' },
+        },
+        format_on_save = {
+          timeout_ms = 2500,
+          lsp_fallback = true,
         },
         formatters = {
           mystylua = {
