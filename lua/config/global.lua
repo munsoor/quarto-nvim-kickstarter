@@ -13,6 +13,7 @@ vim.o.fillchars = 'eob: '
 
 -- more opinionated
 vim.opt.number = true -- show linenumbers
+vim.opt.relativenumber = true -- show relative numbers
 vim.opt.mouse = 'a' -- enable mouse
 vim.opt.mousefocus = true
 vim.opt.clipboard:append 'unnamedplus' -- use system clipboard
@@ -98,7 +99,7 @@ vim.opt.formatoptions:remove 'r'
 vim.opt.formatoptions:remove 'o'
 
 -- scroll before end of window
-vim.opt.scrolloff = 5
+vim.opt.scrolloff = 999
 
 -- (don't == 0) replace certain elements with prettier ones
 vim.opt.conceallevel = 0
