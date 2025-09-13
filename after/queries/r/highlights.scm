@@ -2,5 +2,5 @@
 (
 (comment) @comment
 (#match? @comment "^\\#\\|")
-) @text.literal
+) @comment.note
 

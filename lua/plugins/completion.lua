@@ -30,6 +30,7 @@ return {
         ft = { 'quarto', 'markdown', 'rmarkdown' },
       },
       { 'kdheepak/cmp-latex-symbols' },
+      { 'erooke/blink-cmp-latex' },
     },
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
@@ -43,8 +44,8 @@ return {
         enabled = false,
       },
       sources = {
-        default = { 'lazydev', 'lsp', 'path', 'references', 'git', 'snippets', 'buffer', 'emoji' },
-        -- default = { 'lazydev', 'lsp', 'path', 'references', 'git', 'snippets', 'emoji' },
+        default = { 'lazydev', 'lsp', 'path', 'references', 'git', 'snippets', 'buffer', 'emoji', 'latex' },
+        -- default = { 'lazydev', 'lsp', 'path', 'references', 'git', 'snippets', 'emoji', 'latex' },
         providers = {
           emoji = {
             module = 'blink-emoji',
@@ -74,6 +75,22 @@ return {
             score_offset = 2,
           },
           symbols = { name = 'symbols', module = 'blink.compat.source' },
+          latex = {
+            name = 'Latex',
+            module = 'blink-cmp-latex',
+            opts = {
+              insert_command = function(ctx)
+                local ft = vim.api.nvim_get_option_value('filetype', {
+                  scope = 'local',
+                  buf = ctx.bufnr,
+                })
+                if ft == 'tex' or ft == 'quarto' or ft == 'latex' then
+                  return true
+                end
+                return false
+              end,
+            },
+          },
         },
       },
       appearance = {
