@@ -11,9 +11,10 @@ return {
   { 'catppuccin/nvim', name = 'catppuccin', enabled = false, lazy = false, priority = 1000 },
   { 'armannikoyan/rusty', enabled = false, lazy = false, priority = 1000, opts = { transparent = true, italic_comments = true, underline_current_line = true } },
   { 'oxfist/night-owl.nvim', enabled = false, lazy = false, priority = 1000, opts = {} },
-  { 'rebelot/kanagawa.nvim', enabled = false, lazy = false, priority = 1000, opts = {} },
+  { 'rebelot/kanagawa.nvim', enabled = true, lazy = false, priority = 1000, opts = {} },
   { 'olimorris/onedarkpro.nvim', enabled = false, lazy = false, priority = 1000 },
-  { 'neanias/everforest-nvim', enabled = false, lazy = false, priority = 1000 },
+  { 'sainnhe/everforest', enabled = false, lazy = false, priority = 1000 },
+  { 'rose-pine/neovim', enabled = true, lazy = false, priority = 1000, name = 'rose-pine' },
 
   { -- color html colors
     'NvChad/nvim-colorizer.lua',

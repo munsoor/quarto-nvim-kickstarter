@@ -18,9 +18,14 @@ return {
         enabled = true,
         doc = {
           enabled = true,
-          -- inline = true,
+          -- inline = false,
           -- float = true,
-          -- conceal = false,
+          max_width = 60,
+          max_height = 10,
+          -- conceal = true,
+        },
+        math = {
+          enabled = false,
         },
       },
     },

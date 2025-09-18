@@ -1,8 +1,6 @@
 return {
 
-  { 'mrjones2014/smart-splits.nvim',
-    opts = {}
-  },
+  { 'mrjones2014/smart-splits.nvim', opts = {} },
 
   {
     'Isrothy/neominimap.nvim',
@@ -48,15 +46,15 @@ return {
           { 'kkharji/sqlite.lua' },
         },
         config = function()
-          local zotero = require'zotero'
+          local zotero = require 'zotero'
 
           local collection = nil
-          if vim.fn.getcwd():match('phd%-thesis') then
+          if vim.fn.getcwd():match 'phd%-thesis' then
             collection = 'phd-thesis'
           end
 
-          zotero.setup{
-            collection = collection
+          zotero.setup {
+            collection = collection,
           }
           vim.keymap.set('n', '<leader>fz', ':Telescope zotero<cr>', { desc = '[z]otero' })
         end,
@@ -324,6 +322,10 @@ return {
       { '<leader>lo', ':Outline<cr>', desc = 'symbols outline' },
     },
     opts = {
+      outline_window = {
+        -- Where to open the split window: right/left
+        position = 'left',
+      },
       providers = {
         priority = { 'markdown', 'lsp', 'norg' },
         -- Configuration for each provider (3rd party providers are supported)
@@ -378,20 +380,18 @@ return {
   },
 
   {
-    "OXY2DEV/markview.nvim",
+    'OXY2DEV/markview.nvim',
     enabled = false,
     lazy = false,
     priority = 49,
-    opts = {
-    }
+    opts = {},
   },
-
 
   { -- highlight markdown headings and code blocks etc.
     'MeanderingProgrammer/render-markdown.nvim',
     enabled = false,
     -- ft = {'quarto', 'markdown'},
-    ft = { 'markdown'},
+    ft = { 'markdown' },
     dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
     ---@module 'render-markdown'
     ---@type render.md.UserConfig
@@ -410,7 +410,7 @@ return {
         enabled = false,
       },
       quote = {
-        enabled = false
+        enabled = false,
       },
       paragraph = {
         enabled = false,
@@ -420,7 +420,7 @@ return {
         style = 'full',
         border = 'thin',
         sign = false,
-        render_modes = { 'i', 'v', 'V' }
+        render_modes = { 'i', 'v', 'V' },
       },
       signs = {
         enabled = false,
@@ -431,7 +431,7 @@ return {
   { -- show images in nvim!
     '3rd/image.nvim',
     enabled = false,
-    dev = true,
+    dev = false,
     -- fix to commit to keep using the rockspeck for image magick
     ft = { 'markdown', 'quarto', 'vimwiki' },
     cond = function()
@@ -460,7 +460,7 @@ return {
             enabled = true,
             clear_in_insert_mode = true,
             only_render_image_at_cursor = true,
-            only_render_image_at_cursor_mode = "popup",
+            only_render_image_at_cursor_mode = 'popup',
             floating_windows = false,
             filetypes = { 'markdown', 'vimwiki', 'quarto' },
           },

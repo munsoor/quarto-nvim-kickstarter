@@ -6,20 +6,23 @@
 -- vim.treesitter.language.add('quarto_markdown_inline', { path = "/usr/local/lib/libtree-sitter-markdown-inline.so" })
 -- vim.treesitter.language.register('quarto_markdown', { 'quarto', 'rmarkdown' })
 
-
 require 'config.global'
 require 'config.lazy'
 require 'config.autocommands'
 require 'config.redir'
 
--- require 'utils.keys'
+local use_minimal_default_colors = false
 
-vim.cmd.colorscheme 'default'
+if use_minimal_default_colors then
+  vim.cmd.colorscheme 'default'
 
--- reload colors module if it was already loaded
-local mod = 'utils.colors'
-if package.loaded[mod] then
-  package.loaded[mod] = nil
+  -- reload colors module if it was already loaded
+  local mod = 'utils.colors'
+  if package.loaded[mod] then
+    package.loaded[mod] = nil
+  end
+
+  require(mod)
+else
+  vim.cmd.colorscheme 'kanagawa'
 end
-
-require(mod)
