@@ -5,7 +5,6 @@ return {
     dependencies = {
       {
         'nvim-treesitter/nvim-treesitter-textobjects',
-        'OXY2DEV/markview.nvim',
       },
     },
     run = ':TSUpdate',

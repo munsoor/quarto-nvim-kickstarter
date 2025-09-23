@@ -11,7 +11,7 @@ require 'config.lazy'
 require 'config.autocommands'
 require 'config.redir'
 
-local use_minimal_default_colors = false
+local use_minimal_default_colors = true
 
 if use_minimal_default_colors then
   vim.cmd.colorscheme 'default'
@@ -26,3 +26,21 @@ if use_minimal_default_colors then
 else
   vim.cmd.colorscheme 'kanagawa'
 end
+
+vim.cmd [[
+  highlight Normal guibg=none
+  highlight NonText guibg=none
+  highlight Normal ctermbg=none
+  highlight NonText ctermbg=none
+  highlight ColorColumn ctermbg=none
+  highlight ColorColumn guibg=none
+  highlight SignColumn ctermbg=none
+  highlight SignColumn guibg=none
+  highlight LineNr ctermbg=none
+  highlight LineNr guibg=none
+  highlight CursorLine ctermbg=none
+  highlight CursorLine guibg=none
+  highlight CursorLineNr ctermbg=none
+  highlight CursorLineNr guibg=none
+]]
+

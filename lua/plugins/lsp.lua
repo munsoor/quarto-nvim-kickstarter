@@ -74,6 +74,8 @@ return {
     config = function()
       local lspconfig = require 'lspconfig'
       local util = require 'lspconfig.util'
+      -- local lspconfig = vim.lsp.config
+      -- local util = vim.lsp.util
 
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),

@@ -4,6 +4,7 @@ return {
   -- ys{motion}{char}, ds{char}, and cs{target}{replacement}
   {
     'kylechui/nvim-surround',
+    enabled = true,
     event = 'VeryLazy',
     opts = {},
   },
