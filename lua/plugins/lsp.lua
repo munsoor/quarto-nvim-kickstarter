@@ -1,7 +1,7 @@
 return {
   {
     'jmbuhr/otter.nvim',
-    dev = false,
+    dev = true,
     dependencies = {
       {
         'neovim/nvim-lspconfig',
@@ -227,9 +227,7 @@ return {
             },
           },
         },
-        root_dir = function(fname)
-          return util.root_pattern('.git', 'setup.py', 'setup.cfg', 'pyproject.toml', 'requirements.txt')(fname)
-        end,
+        root_markers = {'.git', 'setup.py', 'setup.cfg', 'pyproject.toml', 'requirements.txt'}
       }
 
       -- enable the servers
