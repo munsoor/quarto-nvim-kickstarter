@@ -20,18 +20,18 @@ vim.opt.mousefocus = true
 -- working around wl-copy stealing focus
 vim.g.clipboard = 'osc52'
 
--- vim.o.clipboard = "unnamedplus"
-vim.o.clipboard = ""
+vim.o.clipboard = "unnamedplus"
+-- vim.o.clipboard = ""
 
-vim.api.nvim_create_autocmd("TextYankPost", {
-  callback = function()
-    vim.highlight.on_yank()
-    local copy_to_unnamedplus = require("vim.ui.clipboard.osc52").copy("+")
-    copy_to_unnamedplus(vim.v.event.regcontents)
-    local copy_to_unnamed = require("vim.ui.clipboard.osc52").copy("*")
-    copy_to_unnamed(vim.v.event.regcontents)
-  end,
-})
+-- vim.api.nvim_create_autocmd("TextYankPost", {
+--   callback = function()
+--     vim.highlight.on_yank()
+--     local copy_to_unnamedplus = require("vim.ui.clipboard.osc52").copy("+")
+--     copy_to_unnamedplus(vim.v.event.regcontents)
+--     local copy_to_unnamed = require("vim.ui.clipboard.osc52").copy("*")
+--     copy_to_unnamed(vim.v.event.regcontents)
+--   end,
+-- })
 
 
 vim.opt.timeoutlen = 400 -- until which-key pops up
