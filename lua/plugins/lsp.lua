@@ -9,15 +9,13 @@ return {
       },
     },
     ---@type OtterConfig
-    opts = { },
+    opts = {},
   },
 
   {
     'neovim/nvim-lspconfig',
     dependencies = {
-      { 'mason-org/mason.nvim',
-        opts = {}
-      },
+      { 'mason-org/mason.nvim', opts = {} },
       {
         'mason-org/mason-lspconfig.nvim',
         opts = {
@@ -72,13 +70,10 @@ return {
       { 'folke/neoconf.nvim', opts = {}, enabled = false },
     },
     config = function()
-      local lspconfig = require 'lspconfig'
       local util = require 'lspconfig.util'
-      -- local lspconfig = vim.lsp.config
-      -- local util = vim.lsp.util
 
       vim.api.nvim_create_autocmd('LspAttach', {
-        group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
+        group = vim.api.nvim_create_augroup('lsp-attach', { clear = true }),
         callback = function(event)
           local function map(keys, func, desc)
             vim.keymap.set('n', keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
@@ -109,19 +104,23 @@ return {
         capabilities = vim.lsp.protocol.make_client_capabilities()
       end
 
+      -- set defaults for all clients
+      vim.lsp.config('*', {
+        capabilities = capabilities,
+        flags = lsp_flags,
+        root_markers = { '.git/' },
+      })
+
       -- also needs:
       -- $home/.config/marksman/config.toml :
       -- [core]
       -- markdown.file_extensions = ["md", "markdown", "qmd"]
-      -- lspconfig.marksman.setup {
-      --   capabilities = capabilities,
+      -- vim.lsp.config.marksman = {
       --   filetypes = { 'markdown', 'quarto' },
       --   root_dir = util.root_pattern('.git', '.marksman.toml', '_quarto.yml'),
       -- }
 
-      lspconfig.r_language_server.setup {
-        capabilities = capabilities,
-        flags = lsp_flags,
+      vim.lsp.config.r_language_server = {
         filetypes = { 'r', 'rmd', 'rmarkdown' }, -- not directly using it for quarto (as that is handled by otter and often contains more languanges than just R)
         settings = {
           r = {
@@ -132,29 +131,7 @@ return {
         },
       }
 
-      lspconfig.cssls.setup {
-        capabilities = capabilities,
-        flags = lsp_flags,
-      }
-
-      -- lspconfig.html.setup {
-      --   capabilities = capabilities,
-      --   flags = lsp_flags,
-      -- }
-
-      -- lspconfig.emmet_language_server.setup {
-      --   capabilities = capabilities,
-      --   flags = lsp_flags,
-      -- }
-
-      lspconfig.svelte.setup {
-        capabilities = capabilities,
-        flags = lsp_flags,
-      }
-
-      lspconfig.yamlls.setup {
-        capabilities = capabilities,
-        flags = lsp_flags,
+      vim.lsp.config.yamlls = {
         settings = {
           yaml = {
             schemaStore = {
@@ -165,26 +142,11 @@ return {
         },
       }
 
-      lspconfig.jsonls.setup {
-        capabilities = capabilities,
-        flags = lsp_flags,
-      }
-
-      lspconfig.texlab.setup {
-        capabilities = capabilities,
-        flags = lsp_flags,
-      }
-
-      lspconfig.dotls.setup {
-        capabilities = capabilities,
-        flags = lsp_flags,
-      }
-
-      lspconfig.ts_ls.setup {
-        capabilities = capabilities,
-        flags = lsp_flags,
+      vim.lsp.config.ts_ls = {
         filetypes = { 'js', 'javascript', 'typescript', 'ojs' },
       }
+
+
 
       local function get_quarto_resource_path()
         local function strsplit(s, delimiter)
@@ -211,9 +173,7 @@ return {
         table.insert(lua_plugin_paths, resource_path .. '/lua-plugin/plugin.lua')
       end
 
-      lspconfig.lua_ls.setup {
-        capabilities = capabilities,
-        flags = lsp_flags,
+      vim.lsp.config.lua_ls = {
         settings = {
           Lua = {
             completion = {
@@ -238,41 +198,12 @@ return {
         },
       }
 
-      lspconfig.vimls.setup {
-        capabilities = capabilities,
-        flags = lsp_flags,
-      }
-
-      lspconfig.julials.setup {
-        capabilities = capabilities,
-        flags = lsp_flags,
-      }
-
-      lspconfig.bashls.setup {
-        capabilities = capabilities,
-        flags = lsp_flags,
+      vim.lsp.bashls = {
         filetypes = { 'sh', 'bash' },
       }
 
-      -- lspconfig.hls.setup {
-      --   capabilities = capabilities,
-      --   flags = lsp_flags,
+      -- vim.lsp.config.hls = {
       --   filetypes = { 'haskell', 'lhaskell', 'cabal' },
-      -- }
-
-      lspconfig.clangd.setup {
-        capabilities = capabilities,
-        flags = lsp_flags,
-      }
-
-      lspconfig.rust_analyzer.setup {
-        capabilities = capabilities,
-        flags = lsp_flags,
-      }
-
-      -- lspconfig.ruff_lsp.setup {
-      --   capabilities = capabilities,
-      --   flags = lsp_flags,
       -- }
 
       -- See https://github.com/neovim/neovim/issues/23291
@@ -285,9 +216,8 @@ return {
       end
       capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = false
 
-      lspconfig.pyright.setup {
+      vim.lsp.config.pyright = {
         capabilities = capabilities,
-        flags = lsp_flags,
         settings = {
           python = {
             analysis = {
@@ -301,6 +231,30 @@ return {
           return util.root_pattern('.git', 'setup.py', 'setup.cfg', 'pyproject.toml', 'requirements.txt')(fname)
         end,
       }
+
+      -- enable the servers
+      vim.lsp.enable 'r_language_server'
+      vim.lsp.enable 'cssls'
+      vim.lsp.enable 'html'
+      vim.lsp.enable 'emmet_language_server'
+      vim.lsp.enable 'svelte'
+      vim.lsp.enable 'jsonls'
+      vim.lsp.enable 'texlab'
+      vim.lsp.enable 'dotls'
+      vim.lsp.enable 'ts_ls'
+      vim.lsp.enable 'yamlls'
+      vim.lsp.enable 'clangd'
+      -- vim.lsp.enable 'marksman'
+      -- vim.lsp.enable 'sqlls'
+      -- vim.lsp.enable 'hls'
+      -- vim.lsp.enable 'julia-lsp'
+      vim.lsp.enable 'lua_ls'
+      vim.lsp.enable 'bashls'
+      vim.lsp.enable 'pyright'
+      vim.lsp.enable 'rust_analyzer'
+      -- vim.lsp.enable 'ruff_lsp'
+
+
     end,
   },
 }
