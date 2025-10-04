@@ -16,6 +16,7 @@ vim.o.fillchars = 'eob: '
 
 -- more opinionated
 vim.opt.number = true -- show linenumbers
+vim.opt.relativenumber = true -- show relative linke numbers
 vim.opt.mouse = 'a' -- enable mouse
 vim.opt.mousefocus = true
 vim.opt.clipboard:append 'unnamedplus' -- use system clipboard

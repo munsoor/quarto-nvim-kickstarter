@@ -94,10 +94,12 @@ return {
       signature = { enabled = true },
     },
   },
-
   { -- gh copilot
     'zbirenbaum/copilot.lua',
     enabled = true,
+    cmd = 'Copilot',
+    event = 'InsertEnter',
+    -- build = ':Copilot auth',  -- Add this line!
     config = function()
       require('copilot').setup {
         suggestion = {

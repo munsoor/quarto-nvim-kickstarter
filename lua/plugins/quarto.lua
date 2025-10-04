@@ -1,3 +1,4 @@
+vim.g.python3_host_prog = '/opt/homebrew/Caskroom/mambaforge/base/envs/neovim/bin/python'
 return {
 
   { -- requires plugins in lua/plugins/treesitter.lua and lua/plugins/lsp.lua
@@ -136,9 +137,14 @@ return {
     init = function()
       vim.g.molten_image_provider = 'image.nvim'
       -- vim.g.molten_output_win_max_height = 20
+      vim.g.molten_auto_image_popup = false
       vim.g.molten_auto_open_output = true
       vim.g.molten_auto_open_html_in_browser = true
       vim.g.molten_tick_rate = 200
+      -- Optional additions:
+      vim.g.molten_wrap_output = true  -- Wrap long output lines
+      vim.g.molten_virt_text_output = false  -- Show output as virtual text
+      vim.g.molten_virt_lines_off_by_1 = true  -- Fix off-by-one display issues
     end,
     config = function()
       local init = function()
