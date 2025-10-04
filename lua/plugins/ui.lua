@@ -451,10 +451,17 @@ return {
         image.hijack_buffer(img.path, preview.win, preview.buf)
       end
 
-      vim.keymap.set('n', '<leader>io', function()
-        local bufnr = vim.api.nvim_get_current_buf()
-        handle_zoom(bufnr)
-      end, { buffer = true, desc = 'image [o]pen' })
+      -- Fix: Use autocmd to set keymap for each markdown/quarto/vimwiki buffer
+      -- Previously buffer = true only applied to the first buffer that loaded the plugin
+      vim.api.nvim_create_autocmd('FileType', {
+        pattern = { 'markdown', 'quarto', 'vimwiki' },
+        callback = function()
+          vim.keymap.set('n', '<leader>io', function()
+            local bufnr = vim.api.nvim_get_current_buf()
+            handle_zoom(bufnr)
+          end, { buffer = true, desc = 'image [o]pen' })
+        end
+      })
 
       vim.keymap.set('n', '<leader>ic', clear_all_images, { desc = 'image [c]lear' })
     end,
