@@ -494,3 +494,35 @@ wk.add({
     { '<leader>xx', ':w<cr>:source %<cr>', desc = '[x] source %' },
   },
 }, { mode = 'n' })
+
+-- Quarto-specific: lower scrolloff and scroll chunks to top after navigation
+-- Applies to both .qmd and .ipynb files (jupytext converts to quarto filetype)
+--
+-- Behavior:
+-- - Sets scrolloff=5 (vs global 999) to allow cursor near top of screen
+-- - When navigating with ]] or [[, positions chunk at top with 'zt'
+-- - This allows viewing code chunk and its output below without scrolling
+-- - Lower scrolloff is permanent for quarto buffers (not toggled per-motion)
+--   to avoid timing issues with vim's rendering and scrolloff interaction
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'quarto',
+  callback = function()
+    -- Set lower scrolloff for quarto files to enable seeing chunk output below
+    vim.opt_local.scrolloff = 5
+
+    -- Call treesitter textobject functions directly to avoid infinite recursion
+    local ts_move = require('nvim-treesitter.textobjects.move')
+
+    -- Navigate to next chunk and position it near the top
+    vim.keymap.set('n', ']]', function()
+      ts_move.goto_next_start('@class.inner')  -- jump to next code chunk
+      vim.cmd('normal! zt')  -- scroll line to top of screen
+    end, { buffer = true, desc = 'next chunk (scroll to top)' })
+
+    -- Navigate to previous chunk and position it near the top
+    vim.keymap.set('n', '[[', function()
+      ts_move.goto_previous_start('@class.inner')  -- jump to previous code chunk
+      vim.cmd('normal! zt')  -- scroll line to top of screen
+    end, { buffer = true, desc = 'prev chunk (scroll to top)' })
+  end
+})
