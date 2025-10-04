@@ -238,7 +238,7 @@ return {
       vim.lsp.enable 'svelte'
       vim.lsp.enable 'jsonls'
       vim.lsp.enable 'texlab'
-      vim.lsp.enable 'dotls'
+      -- vim.lsp.enable 'dotls'
       vim.lsp.enable 'ts_ls'
       vim.lsp.enable 'yamlls'
       vim.lsp.enable 'clangd'

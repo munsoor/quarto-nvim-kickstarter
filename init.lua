@@ -27,6 +27,7 @@ else
   vim.cmd.colorscheme 'kanagawa'
 end
 
+-- transparent background if needed
 vim.cmd [[
   highlight Normal guibg=none
   highlight NonText guibg=none
