@@ -48,7 +48,7 @@ return {
         workspaces = {
           {
             name = 'notes',
-            path = '~/notes',
+            path = '/Users/munsoor.negyal/Library/Mobile Documents/iCloud~md~obsidian/Documents/ObsidianMainVault',
           },
         },
         -- Optional, for templates (see below).

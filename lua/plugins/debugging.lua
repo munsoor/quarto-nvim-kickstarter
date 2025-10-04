@@ -32,7 +32,10 @@ return {
       {
         'nvim-neotest/nvim-nio',
         'rcarriga/nvim-dap-ui',
-        'mfussenegger/nvim-dap-python',
+        {
+          'mfussenegger/nvim-dap-python',
+          build = false,  -- Don't use luarocks for nvim-dap-python
+        },
         'theHamsta/nvim-dap-virtual-text',
       },
     },

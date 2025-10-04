@@ -45,4 +45,6 @@ vim.cmd [[
   highlight CursorLineNr ctermbg=none
   highlight CursorLineNr guibg=none
 ]]
+vim.api.nvim_set_hl(0, 'TermCursor', { fg = '#A6E3A1', bg = '#A6E3A1' })
+vim.api.nvim_set_hl(0, 'WinSeparator', { fg = 'dimgray', bg = '' })
 
