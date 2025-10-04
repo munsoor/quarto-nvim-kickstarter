@@ -444,6 +444,7 @@ return {
         max_width_window_percentage = nil,
         max_height_window_percentage = 30,
         kitty_method = 'normal',
+        scale_factor = 1.0 
       }
 
       local function clear_all_images()
