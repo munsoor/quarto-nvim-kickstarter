@@ -258,6 +258,7 @@ return {
       outline_window = {
         -- Where to open the split window: right/left
         position = 'left',
+        width = 10
       },
       providers = {
         priority = { 'markdown', 'lsp', 'norg' },

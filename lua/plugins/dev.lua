@@ -2,23 +2,22 @@ return {
 
   {
     'gn0/nvim-web-server',
-    config = function ()
-      local serve = function ()
+    config = function()
+      local serve = function()
         local buf = vim.api.nvim_get_current_buf()
         require('web-server').init()
         vim.api.nvim_set_current_buf(buf)
         local ft
         if vim.bo[buf].filetype == 'html' then
           ft = 'text/html'
-        elseif vim.api.nvim_buf_get_name(buf):match('png$') then
+        elseif vim.api.nvim_buf_get_name(buf):match 'png$' then
           ft = 'image/png'
         end
         vim.cmd([[WSAddBuffer / ]] .. ft)
       end
       vim.keymap.set('n', '<leader>ws', serve, { desc = 'Start web server' })
-    end
+    end,
   },
-
 
   { -- profile your config to see what code is executed
     'stevearc/profile.nvim',
@@ -53,5 +52,8 @@ return {
       end
       vim.keymap.set('', '<f1>', toggle_profile)
     end,
+  },
+  {
+    'KeepDrive/tts.nvim',
   },
 }

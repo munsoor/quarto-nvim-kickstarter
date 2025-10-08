@@ -11,7 +11,7 @@ require 'config.lazy'
 require 'config.autocommands'
 require 'config.redir'
 
-local use_minimal_default_colors = true
+local use_minimal_default_colors = false
 
 if use_minimal_default_colors then
   vim.cmd.colorscheme 'default'
