@@ -33,14 +33,6 @@ vim.o.clipboard = "unnamedplus"
 --   end,
 -- })
 
--- keymap to copy to system clipboard from any visual mode with Y
-vim.keymap.set('x', 'Y', '"+y', { noremap = true, silent = true, desc = 'Copy to system clipboard' })
--- always copyy to system clipboard with Y
-vim.keymap.set('n', 'Y', '"+y', { noremap = true, silent = true, desc = 'Copy to system clipboard' })
-
--- and to paste from it with <leader>p in normal or visual mode
-vim.keymap.set({ 'n', 'x' }, '<leader>p', '"+p', { noremap = true, silent = true, desc = 'Paste from system clipboard' })
-
 vim.opt.timeoutlen = 400 -- until which-key pops up
 vim.opt.updatetime = 250 -- for autocommands and hovers
 
