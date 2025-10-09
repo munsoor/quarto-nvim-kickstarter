@@ -42,6 +42,7 @@ vim.cmd [[
   highlight CursorLine ctermbg=none
   highlight CursorLine guibg=none
   highlight CursorLineNr ctermbg=none
+  highlight CursorLineNr ctermbg=none
   highlight CursorLineNr guibg=none
 ]]
 
