@@ -52,7 +52,7 @@ return {
             name = 'Emoji',
             score_offset = -1,
             enabled = function()
-              return vim.tbl_contains({ 'markdown' }, vim.bo.filetype)
+              return vim.tbl_contains({ 'markdown', 'quarto' }, vim.bo.filetype)
             end,
           },
           lazydev = {

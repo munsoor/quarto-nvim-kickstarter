@@ -146,8 +146,6 @@ return {
         filetypes = { 'js', 'javascript', 'typescript', 'ojs' },
       }
 
-
-
       local function get_quarto_resource_path()
         local function strsplit(s, delimiter)
           local result = {}
@@ -227,7 +225,7 @@ return {
             },
           },
         },
-        root_markers = {'.git', 'setup.py', 'setup.cfg', 'pyproject.toml', 'requirements.txt'}
+        root_markers = { '.git', 'setup.py', 'setup.cfg', 'pyproject.toml', 'requirements.txt' },
       }
 
       -- enable the servers
@@ -252,6 +250,9 @@ return {
       vim.lsp.enable 'rust_analyzer'
       -- vim.lsp.enable 'ruff_lsp'
 
+      -- android development
+      vim.lsp.enable 'kotlin_language_server'
+      vim.lsp.enable 'jdtls'
 
     end,
   },
