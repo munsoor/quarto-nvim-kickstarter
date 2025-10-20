@@ -1,5 +1,19 @@
 # Changelog
 
+## [3.14.0](https://github.com/jmbuhr/nvim-config/compare/v3.13.0...v3.14.0) (2025-10-20)
+
+
+### Features
+
+* filter zotero by collection name ([1b1f219](https://github.com/jmbuhr/nvim-config/commit/1b1f219557d57320db4987d95c0f7ad6656a11b8))
+
+
+### Bug Fixes
+
+* emoji only in markdown ft ([e4e3847](https://github.com/jmbuhr/nvim-config/commit/e4e38474f20cf6307a9e501990e4d3d6ac3824e6))
+* image cleanup ([400cadb](https://github.com/jmbuhr/nvim-config/commit/400cadb58f004bc746ee00fb33562b345129fbb8))
+* update mason setup ([c673bd3](https://github.com/jmbuhr/nvim-config/commit/c673bd35ad1fb6db0a9c1960d56bb80bfab2f7f8))
+
 ## [3.13.0](https://github.com/jmbuhr/nvim-config/compare/v3.12.0...v3.13.0) (2025-04-06)
 
 
