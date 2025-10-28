@@ -139,7 +139,7 @@ return {
       -- vim.g.molten_output_win_max_height = 20
       vim.g.molten_auto_image_popup = false
       vim.g.molten_auto_open_output = true
-      vim.g.molten_auto_open_html_in_browser = true
+      vim.g.molten_auto_open_html_in_browser = false
       vim.g.molten_tick_rate = 200
       -- Optional additions:
       vim.g.molten_wrap_output = true  -- Wrap long output lines
