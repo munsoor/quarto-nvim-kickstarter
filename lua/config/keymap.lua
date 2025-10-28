@@ -513,16 +513,47 @@ vim.api.nvim_create_autocmd('FileType', {
     -- Call treesitter textobject functions directly to avoid infinite recursion
     local ts_move = require('nvim-treesitter.textobjects.move')
 
+    -- Show lightweight notification of which chunk we're in (format: "Chunk 3/12")
+    local function show_chunk_number()
+      vim.schedule(function()
+        local parser = vim.treesitter.get_parser(0, 'markdown')
+        if not parser then return end
+
+        local tree = parser:parse()[1]
+        local root = tree:root()
+        local query = vim.treesitter.query.parse('markdown', [[(fenced_code_block) @chunk]])
+
+        local current_row = vim.api.nvim_win_get_cursor(0)[1] - 1
+        local chunks = {}
+
+        for id, node in query:iter_captures(root, 0) do
+          local start_row, _, end_row, _ = node:range()
+          table.insert(chunks, { start_row = start_row, end_row = end_row })
+        end
+
+        if #chunks == 0 then return end
+
+        for i, chunk in ipairs(chunks) do
+          if current_row >= chunk.start_row and current_row <= chunk.end_row then
+            vim.notify(string.format('Chunk %d/%d', i, #chunks), vim.log.levels.INFO, { timeout = 1000 })
+            return
+          end
+        end
+      end)
+    end
+
     -- Navigate to next chunk and position it near the top
     vim.keymap.set('n', ']]', function()
       ts_move.goto_next_start('@class.inner')  -- jump to next code chunk
       vim.cmd('normal! zt')  -- scroll line to top of screen
+      show_chunk_number()  -- show temporary notification
     end, { buffer = true, desc = 'next chunk (scroll to top)' })
 
     -- Navigate to previous chunk and position it near the top
     vim.keymap.set('n', '[[', function()
       ts_move.goto_previous_start('@class.inner')  -- jump to previous code chunk
       vim.cmd('normal! zt')  -- scroll line to top of screen
+      show_chunk_number()  -- show temporary notification
     end, { buffer = true, desc = 'prev chunk (scroll to top)' })
   end
 })
