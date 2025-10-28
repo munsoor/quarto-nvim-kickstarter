@@ -216,6 +216,24 @@ return {
 
       vim.lsp.config.pyright = {
         capabilities = capabilities,
+<<<<<<< HEAD
+=======
+        flags = lsp_flags,
+
+        before_init = function(_, config)
+          -- Get the current Python path from the active conda/mamba/pixi environment
+          local env_python = vim.fn.system('which python'):gsub('\n', '')
+          local site_packages = vim.fn.system('python -c "import site; print(site.getsitepackages()[0])"'):gsub('\n', '')
+
+          if env_python and site_packages then
+            config.settings = config.settings or {}
+            config.settings.python = config.settings.python or {}
+            config.settings.python.pythonPath = env_python
+            config.settings.python.analysis = config.settings.python.analysis or {}
+            config.settings.python.analysis.extraPaths = { site_packages }
+          end
+        end,
+>>>>>>> 4816f7c (chore(neovim): add fn to locate the correct python environment)
         settings = {
           python = {
             analysis = {
@@ -225,7 +243,13 @@ return {
             },
           },
         },
+<<<<<<< HEAD
         root_markers = { '.git', 'setup.py', 'setup.cfg', 'pyproject.toml', 'requirements.txt' },
+=======
+        root_dir = function(fname)
+          return util.root_pattern('.git', 'setup.py', 'setup.cfg', 'pyproject.toml', 'requirements.txt', 'pixi.toml')(fname)
+        end,
+>>>>>>> 4816f7c (chore(neovim): add fn to locate the correct python environment)
       }
 
       -- enable the servers
