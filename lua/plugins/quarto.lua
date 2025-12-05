@@ -96,6 +96,10 @@ return {
     opts = {
       default = {
         dir_path = 'img',
+        drag_and_drop = {
+          enabled = false,
+          insert_mode = false,
+        },
       },
       filetypes = {
         markdown = {
