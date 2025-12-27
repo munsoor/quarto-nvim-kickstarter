@@ -201,9 +201,9 @@ return {
         filetypes = { 'sh', 'bash' },
       }
 
-      -- vim.lsp.config.hls = {
-      --   filetypes = { 'haskell', 'lhaskell', 'cabal' },
-      -- }
+      vim.lsp.config.hls = {
+        filetypes = { 'haskell', 'lhaskell', 'cabal' },
+      }
 
       -- See https://github.com/neovim/neovim/issues/23291
       -- disable lsp watcher.
