@@ -1,5 +1,14 @@
 # Changelog
 
+## [3.15.0](https://github.com/jmbuhr/nvim-config/compare/v3.14.0...v3.15.0) (2026-01-07)
+
+
+### Features
+
+* better git diff with vscode-diff.nvim ([b9c945e](https://github.com/jmbuhr/nvim-config/commit/b9c945e31ccc440446ecefe8cc1553471e1db5a6))
+* trigger release ([bd3bdb8](https://github.com/jmbuhr/nvim-config/commit/bd3bdb8e7d1d9c39f9fa5f68b857c9042bf87ff3))
+* use latest treesitter ([e587836](https://github.com/jmbuhr/nvim-config/commit/e587836c1875e8aa9db1d6ea916f6efbdf0371cf))
+
 ## [3.14.0](https://github.com/jmbuhr/nvim-config/compare/v3.13.0...v3.14.0) (2025-10-20)
 
 
