@@ -6,7 +6,7 @@
 ## Plugins written by me
 
 If you are a user of one or multiple of my plugins (listed below),
-you might benefit from my config in this repo to see how I personally use them.
+you might benefit from my config in this repo, to see how I personally use them.
 
 - <https://github.com/quarto-dev/quarto-nvim>
 - <https://github.com/jmbuhr/otter.nvim>
