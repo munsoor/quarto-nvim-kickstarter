@@ -1,7 +1,21 @@
 -- git plugins
 
 return {
-  { 'sindrets/diffview.nvim' },
+  -- { 'sindrets/diffview.nvim' },
+  {
+    'esmuellert/vscode-diff.nvim',
+    dependencies = { 'MunifTanjim/nui.nvim' },
+    cmd = 'CodeDiff',
+    keys = {
+      { '<leader>gd', ':CodeDiff<cr>', desc = '[G]it [D]iff' },
+    },
+    opts = {
+      diff = {
+        disable_inlay_hints = true,
+        max_computation_time_ms = 5000,
+      },
+    }
+  },
 
   -- handy git ui
   {
@@ -11,14 +25,18 @@ return {
     keys = {
       { '<leader>gg', ':Neogit<cr>', desc = 'neo[g]it' },
     },
-    config = function()
-      require('neogit').setup {
+    opts = {
         disable_commit_confirmation = true,
         integrations = {
-          diffview = true,
+          diffview = false,
+        },
+        mappings = {
+          popup = {
+            ['L'] = false,
+            ['H'] = false,
+          },
         },
       }
-    end,
   },
 
   {

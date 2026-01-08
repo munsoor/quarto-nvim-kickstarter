@@ -266,10 +266,6 @@ local insert_plain_ojs_chunk = function()
 end
 
 
-
-
-
-
 --show kepbindings with whichkey
 --add your own here if you want them to
 --show up in the popup as well
@@ -378,6 +374,15 @@ local function toggle_conceal()
   end
 end
 
+--- Clear image cache for snacks.nvim
+--- Remove the ~/.cache/nvim/snacks/image directory
+local function clear_image_cache()
+  local cache_dir = vim.fn.stdpath 'cache' .. '/snacks/image'
+  if vim.fn.isdirectory(cache_dir) == 1 then
+    vim.fn.delete(cache_dir, 'rf')
+  end
+end
+
 -- eval "$(tmux showenv -s DISPLAY)"
 -- normal mode with <leader>
 wk.add({
@@ -415,8 +420,6 @@ wk.add({
     { '<leader>gbo', ':GitBlameOpenCommitURL<cr>', desc = '[o]pen' },
     { '<leader>gc', ':GitConflictRefresh<cr>', desc = '[c]onflict' },
     { '<leader>gd', group = '[d]iff' },
-    { '<leader>gdc', ':DiffviewClose<cr>', desc = '[c]lose' },
-    { '<leader>gdo', ':DiffviewOpen<cr>', desc = '[o]pen' },
     { '<leader>gs', ':Gitsigns<cr>', desc = 'git [s]igns' },
     {
       '<leader>gwc',
@@ -433,7 +436,8 @@ wk.add({
     { '<leader>hc', toggle_conceal, desc = '[c]onceal toggle' },
     { '<leader>ht', group = '[t]reesitter' },
     { '<leader>htt', vim.treesitter.inspect_tree, desc = 'show [t]ree' },
-    { '<leader>i', group = '[i]mage' },
+    { '<leader>i', group = '[i]mage/[i]nsert' },
+    { '<leader>ic', clear_image_cache, desc = '[c]lear image cache' },
     { '<leader>l', group = '[l]anguage/lsp' },
     { '<leader>ld', group = '[d]iagnostics' },
     {

@@ -33,6 +33,7 @@ return {
             'ts_ls',
             'yamlls',
             'clangd',
+            -- 'ltex',
             -- 'sqlls',
             -- 'emmet_language_server',
             -- 'hls',
@@ -201,9 +202,9 @@ return {
         filetypes = { 'sh', 'bash' },
       }
 
-      -- vim.lsp.config.hls = {
-      --   filetypes = { 'haskell', 'lhaskell', 'cabal' },
-      -- }
+      vim.lsp.config.hls = {
+        filetypes = { 'haskell', 'lhaskell', 'cabal' },
+      }
 
       -- See https://github.com/neovim/neovim/issues/23291
       -- disable lsp watcher.
@@ -244,6 +245,27 @@ return {
         root_markers = { '.git', 'setup.py', 'setup.cfg', 'pyproject.toml', 'requirements.txt', 'pixi.toml' },
       }
 
+      vim.lsp.config.ltex = {
+        settings = {
+          ltex = {
+            language = 'en-US',
+            markdown = {
+              nodes = {
+                CodeBlock = "ignore",
+                FencedCodeBlock = "ignore",
+              },
+            },
+            additionalRules = {
+              enablePickyRules = false,
+              motherTongue = 'de-DE',
+            },
+            disabledRules = {
+              ['en-US'] = { 'FILE_EXTENSIONS_CASE', 'COMMA_PARENTHESIS_WHITESPACE', 'MORFOLOGIK_RULE_EN_US', 'WHITESPACE_RULE', 'UPPERCASE_SENTENCE_START' },
+            }
+          },
+        },
+      }
+
       -- enable the servers
       vim.lsp.enable 'r_language_server'
       vim.lsp.enable 'cssls'
@@ -256,6 +278,7 @@ return {
       vim.lsp.enable 'ts_ls'
       vim.lsp.enable 'yamlls'
       vim.lsp.enable 'clangd'
+      -- vim.lsp.enable 'ltex'
       -- vim.lsp.enable 'marksman'
       -- vim.lsp.enable 'sqlls'
       -- vim.lsp.enable 'hls'

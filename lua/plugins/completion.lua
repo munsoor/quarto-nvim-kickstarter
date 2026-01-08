@@ -84,7 +84,7 @@ return {
                   scope = 'local',
                   buf = ctx.bufnr,
                 })
-                if ft == 'tex' or ft == 'quarto' or ft == 'latex' then
+                if ft == 'tex' or ft == 'latex' then
                   return true
                 end
                 return false
@@ -111,6 +111,9 @@ return {
         menu = {
           auto_show = true,
         },
+        ghost_text = {
+          enabled = false,
+        }
       },
       signature = { enabled = true },
     },
