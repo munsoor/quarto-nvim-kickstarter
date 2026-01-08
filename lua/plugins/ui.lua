@@ -2,6 +2,12 @@ return {
 
   { 'mrjones2014/smart-splits.nvim', enabled = true, opts = {} },
 
+  -- seamless navigation between tmux panes and vim splits
+  {
+    'christoomey/vim-tmux-navigator',
+    lazy = false,
+  },
+
   { -- nice quickfix list
     'stevearc/quicker.nvim',
     event = 'FileType qf',
