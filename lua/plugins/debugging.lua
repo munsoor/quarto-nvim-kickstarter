@@ -84,7 +84,7 @@ return {
       { '<leader>do', ":lua require'dap'.step_over()<cr>", desc = 'debug [o]ver' },
       { '<leader>dO', ":lua require'dap'.step_out()<cr>", desc = 'debug [O]ut' },
       { '<leader>di', ":lua require'dap'.step_into()<cr>", desc = 'debug [i]nto' },
-      { '<leader>dr', ":lua require'dap'.repl_open()<cr>", desc = 'debug [r]epl' },
+      { '<leader>dr', ":lua require('dap.repl').open()<cr>", desc = 'debug [r]epl' },
       { '<leader>du', ":lua require'dapui'.toggle()<cr>", desc = 'debug [u]i' },
     },
   },

@@ -88,6 +88,7 @@ return {
           map('gd', vim.lsp.buf.definition, '[g]o to [d]efinition')
           map('gD', vim.lsp.buf.type_definition, '[g]o to type [D]efinition')
           map('<leader>lq', vim.diagnostic.setqflist, '[l]sp diagnostic [q]uickfix')
+          map('<leader>lr', vim.lsp.buf.rename, '[l]sp [r]ename')
         end,
       })
 
@@ -216,8 +217,6 @@ return {
 
       vim.lsp.config.pyright = {
         capabilities = capabilities,
-<<<<<<< HEAD
-=======
         flags = lsp_flags,
 
         before_init = function(_, config)
@@ -233,7 +232,6 @@ return {
             config.settings.python.analysis.extraPaths = { site_packages }
           end
         end,
->>>>>>> 4816f7c (chore(neovim): add fn to locate the correct python environment)
         settings = {
           python = {
             analysis = {
@@ -243,13 +241,7 @@ return {
             },
           },
         },
-<<<<<<< HEAD
-        root_markers = { '.git', 'setup.py', 'setup.cfg', 'pyproject.toml', 'requirements.txt' },
-=======
-        root_dir = function(fname)
-          return util.root_pattern('.git', 'setup.py', 'setup.cfg', 'pyproject.toml', 'requirements.txt', 'pixi.toml')(fname)
-        end,
->>>>>>> 4816f7c (chore(neovim): add fn to locate the correct python environment)
+        root_markers = { '.git', 'setup.py', 'setup.cfg', 'pyproject.toml', 'requirements.txt', 'pixi.toml' },
       }
 
       -- enable the servers
