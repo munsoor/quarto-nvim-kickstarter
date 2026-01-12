@@ -517,7 +517,7 @@ vim.api.nvim_create_autocmd('FileType', {
     vim.opt_local.scrolloff = 5
 
     -- Call treesitter textobject functions directly to avoid infinite recursion
-    local ts_move = require('nvim-treesitter.textobjects.move')
+    local ts_move = require('nvim-treesitter-textobjects.move')
 
     -- Show lightweight notification of which chunk we're in (format: "Chunk 3/12")
     local function show_chunk_number()
